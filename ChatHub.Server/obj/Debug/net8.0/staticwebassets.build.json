@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "kLr9fr5oiFZLZYjmwB2Qp+VRdWguBMOeStRtVG4s3fU=",
+  "Source": "ChatHub.Server",
+  "BasePath": "_content/ChatHub.Server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
