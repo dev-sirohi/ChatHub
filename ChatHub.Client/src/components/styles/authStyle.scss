@@ -1,0 +1,66 @@
+@use 'common';
+
+.wrapper {
+    background-color: common.$primary-color;
+    padding: 2.5em;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.data-box {
+    margin: 0.5em 0px;
+}
+
+.input-box {
+    display: flex;
+    background-color: darkgray;
+    border-radius: 5px;
+    margin: 0.1em 0px;
+}
+
+.input-box>input {
+    /* width: 30em; */
+    font-size: 1em;
+    width: 20em;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border: none;
+}
+
+.icon {
+    margin: 0.5em;
+}
+
+.wrapper>form>button {
+    width: calc(20em + 32px);
+    height: 2em;
+    /* width: calc(30em + 32px); */
+    /* height: 2em; */
+    border: none;
+    border-radius: 5px;
+    background-color: white;
+    font-size: 1em;
+    margin: 0.5em 0em;
+}
+
+#checkbox {
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+}
+
+.register-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+a {
+    text-decoration: none;
+    color: blue;
+}

@@ -1,29 +1,22 @@
-import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import axios from 'axios'
-import baseUrl from "./constants/constants";
+import './App.css';
+import SignUp from './components/SignUp';
+import Login from './components/Login';
+import Home from './components/Home';
+import { Route, Routes } from 'react-router-dom';
+import Layout from './components/Layout';
+import "./components/styles/authStyle.scss";
 
 function App() {
-  // useEffect changes when the component renders or when the dependency array is modified
-  useEffect(() => {
-    const userData = {
-      username: "devsirohi",
-      email: "devsirohi@gmail.com",
-      password: "devsirohi"
-    };
-
-    axios.post(baseUrl + "usercrud/setuserdata", userData).then((response) => {
-      console.log(response.data);
-    })
-  }, []);
-
+  // here we will use some hook to send data to home as prop
+  // the prop will initially be empty in which case home won't show anythin
+  // when we click on one of the friends the chat will open on home page
   return (
     <>
-      <div>
-        <h1>Hello World</h1>
-      </div>
+      <Routes>
+        <Route path='/' element={<SignUp />} />
+        <Route path='login' element={<Login />} />
+        <Route path='home' element={<Layout><Home /></Layout>} />
+      </Routes>
     </>
   )
 }

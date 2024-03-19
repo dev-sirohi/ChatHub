@@ -1,0 +1,17 @@
+@use 'common';
+
+.search-bar-body {
+    background-color: hotpink;
+    height: 30%;
+}
+
+.search-bar {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.searchbar-input {
+    width: 90%;
+    height: 100%;
+}

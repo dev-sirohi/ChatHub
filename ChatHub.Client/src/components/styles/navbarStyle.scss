@@ -1,0 +1,27 @@
+@use 'common';
+
+.navbar-body {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-left {
+    display: flex;
+}
+
+.navbar-right {
+    display: flex;
+}
+
+.navbar-friend-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.navbar-friend-img {
+    border-radius: 50%;
+    padding: 1em;
+}

@@ -1,0 +1,19 @@
+@use 'common';
+
+.chat-box-body {
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.message-body-left {
+    background-color: azure;
+    border: 1px solid black;
+}
+
+.message-body-right {
+    background-color: rgb(236, 142, 186);
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}

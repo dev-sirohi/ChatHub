@@ -1,0 +1,46 @@
+@use 'common';
+
+.sidebar-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.sidebar-top {
+    display: flex;
+    flex-direction: column;
+    height: 25%;
+}
+
+.sidebar-navbar {
+    background-color: gray;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 30%;
+}
+
+.navbar-items {
+    display: flex;
+}
+
+.navbar-items>div {
+    padding: 0.25em;
+}
+
+.under-brand {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.under-brand>p {
+    font-size: 0.70em;
+    background-color: aliceblue;
+    border: 1px solid black;
+}
+
+.sidebar-mid {
+    background-color: yellowgreen;
+    height: 75%;
+}

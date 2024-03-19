@@ -1,0 +1,31 @@
+@use 'common';
+
+.friend-list {
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.friend-list::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+    /* Optional: Hide scrollbar background */
+}
+
+.friend-block {
+    background-color: common.$secondary-color;
+    height: 3.5em;
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+}
+
+.friend-img {
+    border-radius: 50%;
+    padding: 0.5em;
+}
+
+.friend-info {
+    width: 100%;
+    height: 100%;
+    margin-left: 1em;
+}

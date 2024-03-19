@@ -21,6 +21,104 @@
   },
   {
     "ContainingType": "ChatHub.Server.Controllers.UserCRUDController",
+    "Method": "HashPassword",
+    "RelativePath": "UserCRUD",
+    "HttpMethod": "",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "password",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ChatHub.Server.Controllers.UserCRUDController",
+    "Method": "AuthenticateUser",
+    "RelativePath": "UserCRUD/authenticateuser",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user",
+        "Type": "ChatHub.Server.Models.User",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ChatHub.Server.Controllers.UserCRUDController",
+    "Method": "GetUserByUsername",
+    "RelativePath": "UserCRUD/getuserbyusername",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userInfo",
+        "Type": "ChatHub.Server.Models.User",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Boolean",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ChatHub.Server.Controllers.UserCRUDController",
+    "Method": "GetUserFriends",
+    "RelativePath": "UserCRUD/getuserfriends",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ChatHub.Server.Controllers.UserCRUDController",
     "Method": "SetUserData",
     "RelativePath": "UserCRUD/setuserdata",
     "HttpMethod": "POST",
@@ -35,7 +133,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Boolean",
+        "Type": "System.String",
         "MediaTypes": [
           "text/plain",
           "application/json",

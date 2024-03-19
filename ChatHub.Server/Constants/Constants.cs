@@ -1,4 +1,6 @@
-﻿namespace ChatHub.Server.Constants
+﻿using ChatHub.Server.Models;
+
+namespace ChatHub.Server.Constants
 {
     public static class Constants
     {
@@ -14,6 +16,12 @@
         public static string GetConnectionString()
         {
             return ConnectionString;
+        }
+
+        public static User? _currentUser;
+        public static void SetCurrentUser(User user)
+        {
+            _currentUser = user;
         }
     }
 }
