@@ -32,14 +32,7 @@ const SearchBar = ({ friendList, onSearch }) => {
             // accepting it in backend as a dynamic object instead of a declared object (something related to runtime/compiletime error in dynamic objects in c#)
             // i was changing the searchTerm, but why? i can just directly send the data to friendlist component. changing searchterm only brings unneccessary complications
             axios.post(baseUrl + "usercrud/getuserbyusername", searchInfo).then((response) => {
-                if (response.data) {
-                    console.log("global user found!");
-                    // this was so obv. just add a flag to each element in friendlist whether it's new user or not.
-                    onSearch([{ Username: globalUser, isNewFriend: true }]);
-                } else {
-                    console.log("no user found!");
-                    onSearch([{ Username: "", isNewFriend: true }]);
-                }
+                onSearch([{ Username: response.data.userFound == true ? globalUser : "", isNewFriend: !response.data.userAlreadyFriend, requested: response.data.requested, blocked: response.data.blocked }]);
             });
         }
         setIsGlobalSearchCalled(false);

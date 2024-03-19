@@ -112,7 +112,7 @@ namespace ChatHub.Server.Controllers
         public string GetUserFriends()
         {
             int userId = Constants.Constants._currentUser.Id;
-            List<User> friendList = new List<User>();
+            List<FriendInfo> friendList = new List<FriendInfo>();
 
             using (SqlConnection conn = new SqlConnection(Constants.Constants.GetConnectionString()))
             {
@@ -130,10 +130,14 @@ namespace ChatHub.Server.Controllers
                             {
                                 while (reader.Read())
                                 {
-                                    User friend = new User();
-                                    friend.Id = Int32.Parse(reader["FRIEND_ID"].ToString());
-                                    friend.Username = reader["FRIEND_USERNAME"].ToString();
-                                    friendList.Add(friend);
+                                    FriendInfo friend = new FriendInfo();
+                                    friend.FriendId = Int32.Parse(reader["FRIEND_ID"].ToString());
+                                    friend.FriendUsername = reader["FRIEND_USERNAME"].ToString();
+                                    friend.FriendshipStatus = Int32.Parse(reader["FRIENDSHIP_STATUS"].ToString());
+                                    if (!(friend.FriendshipStatus == 403))
+                                    {
+                                        friendList.Add(friend);
+                                    }
                                 }
                             }
                         }
@@ -151,8 +155,14 @@ namespace ChatHub.Server.Controllers
         }
 
         [HttpPost("getuserbyusername")]
-        public bool GetUserByUsername([FromBody] User userInfo)
+        public dynamic GetUserByUsername([FromBody] User userInfo)
         {
+            dynamic obj = new System.Dynamic.ExpandoObject();
+            obj.userFound = false;
+            obj.userAlreadyFriend = false;
+            obj.requested = false;
+            obj.blocked = false;
+
             using (SqlConnection conn = new SqlConnection(Constants.Constants.GetConnectionString()))
             {
                 try
@@ -162,13 +172,69 @@ namespace ChatHub.Server.Controllers
                     {
                         try
                         {
-                            string command = "SELECT * FROM USERS WHERE USERNAME = @username";
+                            string command = "SELECT ID FROM USERS WHERE USERNAME = @Username";
                             SqlCommand cmd = new SqlCommand(command, conn, tran);
+                            cmd.Parameters.AddWithValue("@Username", userInfo.Username);
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    userInfo.Id = Int32.Parse(reader["id"].ToString());
+                                }
+                            }
+
+                            command = "SELECT * FROM USER_BLOCKED WHERE USER_ID = @blockedId AND BLOCKED_ID = @userId;";
+                            cmd = new SqlCommand(command, conn, tran);
+                            cmd.Parameters.AddWithValue("@userId", Constants.Constants._currentUser.Id);
+                            cmd.Parameters.AddWithValue("@blockedId", userInfo.Id);
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    return obj;
+                                }
+                            }
+
+                            command = "SELECT * FROM USER_BLOCKED WHERE USER_ID = @userId AND BLOCKED_ID = @blockedId;";
+                            cmd = new SqlCommand(command, conn, tran);
+                            cmd.Parameters.AddWithValue("@userId", Constants.Constants._currentUser.Id);
+                            cmd.Parameters.AddWithValue("@blockedId", userInfo.Id);
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    obj.userFound = true;
+                                    obj.blocked = true;
+                                    return obj;
+                                }
+                            }
+
+                            command = "SELECT * FROM USER_FRIENDS WHERE USER_ID = @userId AND FRIEND_ID = @friendId;";
+                            cmd = new SqlCommand(command, conn, tran);
+                            cmd.Parameters.AddWithValue("@userId", Constants.Constants._currentUser.Id);
+                            cmd.Parameters.AddWithValue("@friendId", userInfo.Id);
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    obj.userFound = true;
+                                    obj.userAlreadyFriend = true;
+                                    if (Int32.Parse(reader["status"].ToString()) == 402)
+                                    {
+                                        obj.requested = true;
+                                    }
+                                    return obj;
+                                }
+                            }
+
+                            command = "SELECT * FROM USERS WHERE USERNAME = @username";
+                            cmd = new SqlCommand(command, conn, tran);
                             cmd.Parameters.AddWithValue("@username", userInfo.Username);
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {
                                 if (reader.Read())
                                 {
+                                    obj.userFound = true;
                                     return true;
                                 }
                             }
@@ -182,7 +248,93 @@ namespace ChatHub.Server.Controllers
                 }
                 catch (Exception ex) { throw ex; }
             }
-            return false;
+            return obj;
+        }
+
+        [HttpPost("sendfriendrequest")]
+        public void SendFriendRequest([FromBody] User userInfo)
+        {
+            using (SqlConnection conn = new SqlConnection(Constants.Constants.GetConnectionString()))
+            {
+                try
+                {
+                    conn.Open();
+                    using (SqlTransaction tran = conn.BeginTransaction())
+                    {
+                        try
+                        {
+                            string command = "SELECT ID FROM USERS WHERE USERNAME = @Username";
+                            SqlCommand cmd = new SqlCommand(command, conn, tran);
+                            cmd.Parameters.AddWithValue("@Username", userInfo.Username);
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    userInfo.Id = Int32.Parse(reader["id"].ToString());
+                                }
+                            }
+
+                            command = "INSERT INTO USER_FRIENDS VALUES(@userId, @friendId, 401);";
+                            cmd = new SqlCommand(command, conn, tran);
+                            cmd.Parameters.AddWithValue("@userId", Constants.Constants._currentUser.Id);
+                            cmd.Parameters.AddWithValue("@friendId", userInfo.Id);
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            throw ex;
+                        }
+                        tran.Commit();
+                    }
+                }
+                catch (Exception ex) { throw ex; }
+            }
+        }
+
+        [HttpPost("blockuser")]
+        public void BlockUser([FromBody] User userInfo)
+        {
+            using (SqlConnection conn = new SqlConnection(Constants.Constants.GetConnectionString()))
+            {
+                try
+                {
+                    conn.Open();
+                    using (SqlTransaction tran = conn.BeginTransaction())
+                    {
+                        try
+                        {
+                            string command = "SELECT ID FROM USERS WHERE USERNAME = @Username";
+                            SqlCommand cmd = new SqlCommand(command, conn, tran);
+                            cmd.Parameters.AddWithValue("@Username", userInfo.Username);
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    userInfo.Id = Int32.Parse(reader["id"].ToString());
+                                }
+                            }
+
+                            command = "DELETE FROM USER_FRIENDS WHERE USER_ID = @userId AND FRIEND_ID = @friendId;";
+                            cmd = new SqlCommand(command, conn, tran);
+                            cmd.Parameters.AddWithValue("@userId", Constants.Constants._currentUser.Id);
+                            cmd.Parameters.AddWithValue("@friendId", userInfo.Id);
+                            cmd.ExecuteNonQuery();
+
+                            command = "INSERT INTO USER_BLOCKED VALUES(@userId, @blockedId);";
+                            cmd = new SqlCommand(command, conn, tran);
+                            cmd.Parameters.AddWithValue("@userId", Constants.Constants._currentUser.Id);
+                            cmd.Parameters.AddWithValue("@blockedId", userInfo.Id);
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            throw ex;
+                        }
+                        tran.Commit();
+                    }
+                }
+                catch (Exception ex) { throw ex; }
+            }
         }
     }
 }

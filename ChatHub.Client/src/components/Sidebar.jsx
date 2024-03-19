@@ -14,13 +14,16 @@ const Sidebar = () => {
     const [filteredFriendList, setFilteredFriendList] = useState([]);
 
     useEffect(() => {
+        console.log("initiating getuserfriends");
         axios.get(baseUrl + "usercrud/getuserfriends").then((response) => {
             console.log("Setting friends to friendlist");
             let data = response.data;
             let objList = data.map((friend) => (
                 {
-                    Username: friend.Username,
-                    isNewFriend: false
+                    Username: friend.FriendUsername,
+                    isNewFriend: false,
+                    requested: false,
+                    blocked: false
                 }
             ));
             setFriendList(objList);

@@ -29,3 +29,17 @@
     height: 100%;
     margin-left: 1em;
 }
+
+.global-user-info {
+    width: 100%;
+    height: 100%;
+    margin-left: 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.global-user-btns {
+    width: 2em;
+    height: 2em;
+}
