@@ -9,6 +9,7 @@ import axios from 'axios';
 import baseUrl from './constants';
 
 const Sidebar = () => {
+    console.log("this is sidebar running");
 
     const [friendList, setFriendList] = useState([]);
     const [filteredFriendList, setFilteredFriendList] = useState([]);

@@ -131,8 +131,52 @@
   },
   {
     "ContainingType": "ChatHub.Server.Controllers.UserCRUDController",
+    "Method": "RemoveFriendRequest",
+    "RelativePath": "UserCRUD/removefriendrequest",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userInfo",
+        "Type": "ChatHub.Server.Models.User",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ChatHub.Server.Controllers.UserCRUDController",
     "Method": "SendFriendRequest",
     "RelativePath": "UserCRUD/sendfriendrequest",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userInfo",
+        "Type": "ChatHub.Server.Models.User",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ChatHub.Server.Controllers.UserCRUDController",
+    "Method": "SetSession",
+    "RelativePath": "UserCRUD/setsession",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -193,6 +237,28 @@
           "application/json",
           "text/json"
         ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ChatHub.Server.Controllers.UserCRUDController",
+    "Method": "UnBlockUser",
+    "RelativePath": "UserCRUD/unblockuser",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userInfo",
+        "Type": "ChatHub.Server.Models.User",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
         "StatusCode": 200
       }
     ]

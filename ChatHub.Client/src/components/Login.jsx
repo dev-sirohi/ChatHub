@@ -1,11 +1,17 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { FaUser, FaLock } from "react-icons/fa";
 import axios from 'axios';
 import baseUrl from './constants';
 import { Link } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
 const Login = () => {
+    // I was getting error with this saying user is undefined because 
+    // in the authcontext file I had mistyped value as values (where we're returning the authprovider)
+    // therefore the hook couldn't find the value user as it was never properly defined
+    const { user, login, logout } = useAuth();
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -23,7 +29,7 @@ const Login = () => {
 
         // create data
         const userData = {
-            username: username,
+            Username: username,
             password: password
         }
         // send data to api
@@ -32,10 +38,10 @@ const Login = () => {
             let data = response.data;
             alert(data.authenticateMessage);
             if (data.authenticated) {
+                delete userData.password;
+                login(userData);
                 // login and move to main chat page
                 navigate("/home");
-            } else {
-                // clear fields
             }
         })
 

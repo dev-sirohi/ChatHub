@@ -5,6 +5,7 @@ import axios from 'axios';
 import baseUrl from './constants';
 
 const SearchBar = ({ friendList, onSearch }) => {
+    console.log("this is searchbar running");
 
     const [searchTerm, setSearchTerm] = useState("");
     const [globalUser, setGlobalUser] = useState("");
@@ -32,7 +33,8 @@ const SearchBar = ({ friendList, onSearch }) => {
             // accepting it in backend as a dynamic object instead of a declared object (something related to runtime/compiletime error in dynamic objects in c#)
             // i was changing the searchTerm, but why? i can just directly send the data to friendlist component. changing searchterm only brings unneccessary complications
             axios.post(baseUrl + "usercrud/getuserbyusername", searchInfo).then((response) => {
-                onSearch([{ Username: response.data.userFound == true ? globalUser : "", isNewFriend: !response.data.userAlreadyFriend, requested: response.data.requested, blocked: response.data.blocked }]);
+                console.log("user goit by username: " + response.data);
+                onSearch([{ Username: response.data.userFound ? globalUser : "", isNewFriend: !response.data.userAlreadyFriend, requested: response.data.requested, blocked: response.data.blocked }]);
             });
         }
         setIsGlobalSearchCalled(false);
