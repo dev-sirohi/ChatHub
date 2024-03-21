@@ -32,10 +32,6 @@
           "SelectedChildIndex": 5,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
               "$type": "Document",
               "DocumentIndex": 4,
               "Title": "Common.cs",
@@ -49,6 +45,10 @@
               "IsPinned": true
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "FriendInfo.cs",
@@ -58,8 +58,7 @@
               "RelativeToolTip": "Models\\FriendInfo.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAmAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-20T18:19:14.346Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-20T18:19:14.346Z"
             },
             {
               "$type": "Document",
@@ -71,8 +70,7 @@
               "RelativeToolTip": "Constants\\Constants.cs",
               "ViewState": "AQIAAAUAAAAAAAAAAAAAwBwAAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-18T21:51:23.547Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-18T21:51:23.547Z"
             },
             {
               "$type": "Document",

@@ -52,8 +52,8 @@ const FriendList = ({ friendList }) => {
 
         return (
             <>
-                <button className="global-user-btns" type='button' onClick={handleFriendRequest}>{addBtn}</button>
-                <button className="global-user-btns" type='button' onClick={blockUser}>{blockBtn}</button>
+                <button className="global-user-btns" type='button' onClick={() => handleFriendRequest}>{addBtn}</button>
+                <button className="global-user-btns" type='button' onClick={() => blockUser}>{blockBtn}</button>
             </>
         )
     };

@@ -11,6 +11,7 @@ import reactLogo from "./assets/react.svg";
 import { TiUserAdd } from "react-icons/ti";
 import { MdBlock, MdCheckCircle } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import CreateGroup from './CreateGroup';
 
 const Sidebar = ({ onLogout }) => {
     console.log("this is sidebar running");
@@ -149,37 +150,18 @@ const Sidebar = ({ onLogout }) => {
                     <div className="brand">ChatHub</div>
                     <div className="navbar-items">
                         <div className="requests">
-                            <button className="btn btn-warning" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                            <button className="btn btn-warning" type="button" data-bs-toggle="offcanvas" data-bs-target="#requests-offcanvas" aria-controls="offcanvasExample">
                                 <SlUserFollow />{requestList.length}
                             </button>
-
-                            <div className="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-                                <div className="offcanvas-header">
-                                    <h5 className="offcanvas-title" id="offcanvasExampleLabel">Friend Requests</h5>
-                                    {
-                                        // I had an issue here
-                                        // I directly changed the value of sidebarreload on onClick
-                                        // when this component renders, the onclick handler is execute (because js needs to first execute all the functions and all to store them in dom)
-                                        // so it was causing an infinite loop (because it was reloading the sidebar and subsequently itself and then again the handler)
-                                        // when i wrapped it inside a function, it took account of the function, but it didn't run it until the button was actually clicked
-                                    }
-                                    <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" onClick={() => setReloadSidebar(!reloadSidebar)}></button>
-                                </div>
-                                <div className="offcanvas-body">
-                                    {
-                                        requestList.length > 0 ? requestList.map(renderRequestBlock) : renderNoRequests()
-                                    }
-                                </div>
-                            </div>
                         </div>
                         <div className="options">
                             <div className="dropdown">
-                                <button className="btn btn-info" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button className="btn btn-info" type="button" data-bs-toggle="dropdown">
                                     <IoMdSettings />
                                 </button>
                                 <ul className="dropdown-menu">
-                                    <li><button className="btn btn-primary logout-btn" type='button' onClick={handleAccountSettings}>Account Settings</button></li>
-                                    <li><button className="btn btn-primary logout-btn" type='button' onClick={handleCreateGroup}>Create Group</button></li>
+                                    <li><button className="btn btn-primary logout-btn" type='button' data-bs-toggle="offcanvas" data-bs-target="#account-offcanvas" onClick={() => handleAccountSettings}>Account Settings</button></li>
+                                    <li><button className="btn btn-primary logout-btn" type='button' data-bs-toggle="offcanvas" data-bs-target="#groups-offcanvas" onClick={handleCreateGroup}>Create Group</button></li>
                                     <li><button className="btn btn-danger logout-btn" type='button' onClick={handleLogout}>Logout</button></li>
                                 </ul>
                             </div>
@@ -197,9 +179,58 @@ const Sidebar = ({ onLogout }) => {
                         <p>*Please enter the exact username for global search ↑</p>
                     </div>
                 </div>
-            </div>
+            </div >
             <div className="sidebar-mid">
                 <FriendList friendList={filteredFriendList} />
+            </div>
+
+            {/* OFFCANVASES */}
+
+            <div className="offcanvas offcanvas-start" tabindex="-1" id="requests-offcanvas">
+                <div className="offcanvas-header">
+                    <h5 className="offcanvas-title" id="requests-offcanvas-label">Friend Requests</h5>
+                    {
+                        // I had an issue here
+                        // I directly changed the value of sidebarreload on onClick
+                        // when this component renders, the onclick handler is execute (because js needs to first execute all the functions and all to store them in dom)
+                        // so it was causing an infinite loop (because it was reloading the sidebar and subsequently itself and then again the handler)
+                        // when i wrapped it inside a function, it took account of the function, but it didn't run it until the button was actually clicked
+                    }
+                    <button type="button" className="btn-close" data-bs-dismiss="offcanvas" onClick={() => setReloadSidebar(!reloadSidebar)}></button>
+                </div>
+                <div className="offcanvas-body">
+                    {
+                        requestList.length > 0 ? requestList.map(renderRequestBlock) : renderNoRequests()
+                    }
+                </div>
+            </div>
+
+            <div className="offcanvas offcanvas-start" tabindex="-1" id="account-offcanvas">
+                <div className="offcanvas-header">
+                    <h5 className="offcanvas-title" id="options-offcanvas-label">Account Settings</h5>
+                    <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div className="offcanvas-body">
+                    Hello
+                </div>
+            </div>
+
+            <div className="offcanvas offcanvas-start" tabindex="-1" id="groups-offcanvas">
+                <div className="offcanvas-header">
+                    <h5 className="offcanvas-title" id="options-offcanvas-label">Create Group</h5>
+                    <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div className="offcanvas-body">
+                    <div className="create-group-body">
+                        <div className="create-group-top">
+                            <label htmlFor="group-name-input">Enter group name: </label>
+                            <input type="text" id='group-name-input' />
+                        </div>
+                        <div className="create-group-bottom">
+                            <CreateGroup friendsList={friendList} />
+                        </div>
+                    </div>
+                </div>
             </div>
         </div >
     )

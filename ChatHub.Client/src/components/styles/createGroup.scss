@@ -1,0 +1,36 @@
+@use 'common';
+
+.group-info {
+    background-color: aqua;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.friend-added-list {
+    background-color: saddlebrown;
+    width: 100%;
+    height: 10%;
+    display: flex;
+    overflow-x: scroll;
+}
+
+.friend-not-added-list {
+    background-color: sandybrown;
+    width: 100%;
+    height: 80%;
+    overflow-y: scroll;
+}
+
+.friend-added-list::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+    /* Optional: Hide scrollbar background */
+}
+
+.friend-not-added-list::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+    /* Optional: Hide scrollbar background */
+}
