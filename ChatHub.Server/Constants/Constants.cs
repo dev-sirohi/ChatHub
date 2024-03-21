@@ -23,5 +23,10 @@ namespace ChatHub.Server.Constants
         {
             _currentUser = user;
         }
+
+        public static void RemoveCurrentUser()
+        {
+            _currentUser = null;
+        }
     }
 }

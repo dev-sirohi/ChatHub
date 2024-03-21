@@ -92,6 +92,12 @@ namespace ChatHub.Server.Controllers
             Constants.Constants.SetCurrentUser(userInfo);
         }
 
+        [HttpGet("removesession")]
+        public void RemoveSession()
+        {
+            Constants.Constants.RemoveCurrentUser();
+        }
+
         [HttpPost("authenticateuser")]
         public string AuthenticateUser([FromBody] User user)
         {
@@ -158,7 +164,7 @@ namespace ChatHub.Server.Controllers
                     {
                         try
                         {
-                            string command = "SELECT * FROM FRIEND_INFO WHERE USER_ID = @userId;";
+                            string command = "SELECT * FROM FRIEND_INFO WHERE USER_ID = @userId AND FRIENDSHIP_STATUS = 401;";
                             SqlCommand cmd = new SqlCommand(command, conn, tran);
                             cmd.Parameters.AddWithValue("@userId", userId);
                             using (SqlDataReader reader = cmd.ExecuteReader())
@@ -168,11 +174,7 @@ namespace ChatHub.Server.Controllers
                                     FriendInfo friend = new FriendInfo();
                                     friend.FriendId = Int32.Parse(reader["FRIEND_ID"].ToString());
                                     friend.FriendUsername = reader["FRIEND_USERNAME"].ToString();
-                                    friend.FriendshipStatus = Int32.Parse(reader["FRIENDSHIP_STATUS"].ToString());
-                                    if (!(friend.FriendshipStatus == 403))
-                                    {
-                                        friendList.Add(friend);
-                                    }
+                                    friendList.Add(friend);
                                 }
                             }
                         }
@@ -187,6 +189,49 @@ namespace ChatHub.Server.Controllers
             }
 
             return JsonConvert.SerializeObject(friendList);
+        }
+
+        [HttpGet("getuserrequests")]
+        public string GetUserRequests()
+        {
+            int userId = Constants.Constants._currentUser.Id;
+            List<FriendInfo> requestList = new List<FriendInfo>();
+
+            using (SqlConnection conn = new SqlConnection(Constants.Constants.GetConnectionString()))
+            {
+                try
+                {
+                    conn.Open();
+                    using (SqlTransaction tran = conn.BeginTransaction())
+                    {
+                        try
+                        {
+                            string command = "SELECT * FROM FRIEND_INFO WHERE USER_ID = @userId AND FRIENDSHIP_STATUS = 402;";
+                            SqlCommand cmd = new SqlCommand(command, conn, tran);
+                            cmd.Parameters.AddWithValue("@userId", userId);
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    FriendInfo friend = new FriendInfo();
+                                    friend.FriendId = Int32.Parse(reader["FRIEND_ID"].ToString());
+                                    friend.FriendUsername = reader["FRIEND_USERNAME"].ToString();
+                                    requestList.Add(friend);
+
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            throw ex;
+                        }
+                        tran.Commit();
+                    }
+                }
+                catch (Exception ex) { throw ex; }
+            }
+
+            return JsonConvert.SerializeObject(requestList);
         }
 
         [HttpPost("getuserbyusername")]
@@ -439,6 +484,64 @@ namespace ChatHub.Server.Controllers
                             cmd = new SqlCommand(command, conn, tran);
                             cmd.Parameters.AddWithValue("@userId", Constants.Constants._currentUser.Id);
                             cmd.Parameters.AddWithValue("@blockedId", userInfo.Id);
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            throw ex;
+                        }
+                        tran.Commit();
+                    }
+                }
+                catch (Exception ex) { throw ex; }
+            }
+        }
+
+        [HttpPost("acceptrequest")]
+        public void AcceptRequest([FromBody] FriendInfo friendInfo)
+        {
+            using (SqlConnection conn = new SqlConnection(Constants.Constants.GetConnectionString()))
+            {
+                try
+                {
+                    conn.Open();
+                    using (SqlTransaction tran = conn.BeginTransaction())
+                    {
+                        try
+                        {
+                            string command = "UPDATE USER_FRIENDS SET STATUS = 401 WHERE USER_ID = @userId AND FRIEND_ID = @friendId;";
+                            SqlCommand cmd = new SqlCommand(command, conn, tran);
+                            cmd.Parameters.AddWithValue("@userId", Constants.Constants._currentUser.Id);
+                            cmd.Parameters.AddWithValue("@friendId", friendInfo.FriendId);
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            throw ex;
+                        }
+                        tran.Commit();
+                    }
+                }
+                catch (Exception ex) { throw ex; }
+            }
+        }
+
+        [HttpPost("rejectrequest")]
+        public void RejectRequest([FromBody] FriendInfo friendInfo)
+        {
+            using (SqlConnection conn = new SqlConnection(Constants.Constants.GetConnectionString()))
+            {
+                try
+                {
+                    conn.Open();
+                    using (SqlTransaction tran = conn.BeginTransaction())
+                    {
+                        try
+                        {
+                            string command = "DELETE FROM USER_FRIENDS WHERE USER_ID = @userId AND FRIEND_ID = @friendId;";
+                            SqlCommand cmd = new SqlCommand(command, conn, tran);
+                            cmd.Parameters.AddWithValue("@userId", Constants.Constants._currentUser.Id);
+                            cmd.Parameters.AddWithValue("@friendId", friendInfo.FriendId);
                             cmd.ExecuteNonQuery();
                         }
                         catch (Exception ex)

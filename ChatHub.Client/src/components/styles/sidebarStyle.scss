@@ -29,18 +29,71 @@
 }
 
 .under-brand {
+    background-color: green;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 70%;
 }
 
-.under-brand>p {
+.mini-profile {
+    background-color: goldenrod;
+    height: 55%;
+    width: 100%;
+}
+
+.search-bar {
+    background-color: chocolate;
+    display: flex;
+    flex-direction: column;
+    height: 30%;
+    width: 100%;
+}
+
+.search-bar-tip {
     font-size: 0.70em;
     background-color: aliceblue;
     border: 1px solid black;
+    height: 15%;
 }
+
+.under-brand>.search-bar>p {}
 
 .sidebar-mid {
     background-color: yellowgreen;
     height: 75%;
+}
+
+.logout-btn {
+    width: 100%;
+}
+
+.dropdown-menu {
+    width: 5em;
+}
+
+.request-block {
+    background-color: common.$secondary-color;
+    height: 3.5em;
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+}
+
+.request-img {
+    border-radius: 50%;
+    padding: 0.5em;
+}
+
+.request-info {
+    width: 100%;
+    height: 100%;
+    margin-left: 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.request-btns {
+    width: 2em;
+    height: 2em;
 }

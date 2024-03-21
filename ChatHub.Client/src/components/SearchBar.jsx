@@ -51,17 +51,15 @@ const SearchBar = ({ friendList, onSearch }) => {
 
     return (
         <div className='search-bar-body'>
-            <div className="search-bar">
-                <input
-                    className='searchbar-input'
-                    id='searchbar-input'
-                    type="text"
-                    value={searchTerm}
-                    onChange={handleInputChange}
-                />
-                <div className="icon" onClick={globalSearch}>
-                    <AiOutlineGlobal />
-                </div>
+            <input
+                className='search-bar-input'
+                id='searchbar-input'
+                type="text"
+                value={searchTerm}
+                onChange={handleInputChange}
+            />
+            <div className="search-icon" onClick={globalSearch}>
+                <AiOutlineGlobal />
             </div>
         </div>
     )

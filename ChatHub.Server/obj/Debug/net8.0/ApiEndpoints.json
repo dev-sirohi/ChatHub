@@ -47,6 +47,28 @@
   },
   {
     "ContainingType": "ChatHub.Server.Controllers.UserCRUDController",
+    "Method": "AcceptRequest",
+    "RelativePath": "UserCRUD/acceptrequest",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "friendInfo",
+        "Type": "ChatHub.Server.Models.FriendInfo",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ChatHub.Server.Controllers.UserCRUDController",
     "Method": "AuthenticateUser",
     "RelativePath": "UserCRUD/authenticateuser",
     "HttpMethod": "POST",
@@ -131,6 +153,48 @@
   },
   {
     "ContainingType": "ChatHub.Server.Controllers.UserCRUDController",
+    "Method": "GetUserRequests",
+    "RelativePath": "UserCRUD/getuserrequests",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ChatHub.Server.Controllers.UserCRUDController",
+    "Method": "RejectRequest",
+    "RelativePath": "UserCRUD/rejectrequest",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "friendInfo",
+        "Type": "ChatHub.Server.Models.FriendInfo",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ChatHub.Server.Controllers.UserCRUDController",
     "Method": "RemoveFriendRequest",
     "RelativePath": "UserCRUD/removefriendrequest",
     "HttpMethod": "POST",
@@ -143,6 +207,22 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ChatHub.Server.Controllers.UserCRUDController",
+    "Method": "RemoveSession",
+    "RelativePath": "UserCRUD/removesession",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": [
       {
         "Type": "System.Void",

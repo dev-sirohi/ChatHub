@@ -17,17 +17,18 @@ export const useAuth = () => useContext(AuthContext);
 // it takes all the children it wraps as parameter
 // and provides them with all it's data, functions and context
 const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 
-    // this hook will only run once, when the component is mounted
-    useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
-    }, []);
+    // // this hook will only run once, when the component is mounted
+    // useEffect(() => {
+    //     const storedUser = localStorage.getItem('user');
+    //     if (storedUser) {
+    //         setUser(JSON.parse(storedUser));
+    //     }
+    // }, []);
 
     const login = (userData) => {
+        console.log("trying to login");
         setUser(userData);
         localStorage.setItem('user', JSON.stringify(userData));
         axios.post(baseUrl + "usercrud/setsession", userData).then((response) => {
@@ -38,6 +39,9 @@ const AuthProvider = ({ children }) => {
     const logout = () => {
         setUser(null);
         localStorage.removeItem('user');
+        axios.get(baseUrl + "usercrud/removesession").then((response) => {
+            console.log("user removed from backend");
+        });
     }
 
     // by using provider and wrapping it around all other components, we will be able to 
