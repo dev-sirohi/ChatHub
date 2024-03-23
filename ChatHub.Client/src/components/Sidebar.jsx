@@ -227,7 +227,7 @@ const Sidebar = ({ onLogout }) => {
                             <input type="text" id='group-name-input' />
                         </div>
                         <div className="create-group-bottom">
-                            <CreateGroup friendsList={friendList} />
+                            <CreateGroup friendsList={friendList} groupName={groupName} />
                         </div>
                     </div>
                 </div>

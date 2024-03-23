@@ -117,6 +117,28 @@
   },
   {
     "ContainingType": "ChatHub.Server.Controllers.UserCRUDController",
+    "Method": "CreateGroup",
+    "RelativePath": "UserCRUD/creategroup",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "friendInfoList",
+        "Type": "System.Collections.Generic.List\u00601[[ChatHub.Server.Models.FriendInfo, ChatHub.Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ChatHub.Server.Controllers.UserCRUDController",
     "Method": "GetUserByUsername",
     "RelativePath": "UserCRUD/getuserbyusername",
     "HttpMethod": "POST",

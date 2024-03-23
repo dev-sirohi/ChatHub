@@ -29,6 +29,22 @@ const CreateGroup = ({ friendsList }) => {
         setFriendList(updatedList);
     }
 
+    const handleCreateGroup = () => {
+        let friendsInGroupList = friendList.filter((friend) => friend.requested).map((friend) => {
+            let obj = {
+                Username: friend.Username
+            }
+
+            return obj;
+        });
+
+        console.log(friendsInGroupList);
+
+        // axios.post(baseUrl + "usercrud/creategroup", friendsInGroupList).then((response) => {
+        //     console.log("group created!");
+        // });
+    }
+
     const renderFriendButtons = (friend) => {
         console.log("friend is");
         console.log(friend);
@@ -81,6 +97,7 @@ const CreateGroup = ({ friendsList }) => {
                     friendList.length > 0 ? friendList.map(renderFriendBlock) : null
                 }
             </div>
+            <button type='button' onClick={() => handleCreateGroup()}>Create Group</button>
         </div>
     )
 }
