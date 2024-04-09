@@ -69,6 +69,28 @@
   },
   {
     "ContainingType": "ChatHub.Server.Controllers.UserCRUDController",
+    "Method": "AddGroupMembers",
+    "RelativePath": "UserCRUD/addgroupmembers",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "groupChatCreator",
+        "Type": "ChatHub.Server.Models.GroupChatCreator",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ChatHub.Server.Controllers.UserCRUDController",
     "Method": "AuthenticateUser",
     "RelativePath": "UserCRUD/authenticateuser",
     "HttpMethod": "POST",
@@ -124,8 +146,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "friendInfoList",
-        "Type": "System.Collections.Generic.List\u00601[[ChatHub.Server.Models.FriendInfo, ChatHub.Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Name": "groupChat",
+        "Type": "ChatHub.Server.Models.GroupChats",
         "IsRequired": true
       }
     ],

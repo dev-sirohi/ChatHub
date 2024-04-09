@@ -8,7 +8,7 @@ import { FaCheckSquare } from "react-icons/fa";
 
 
 
-const CreateGroup = ({ friendsList }) => {
+const CreateGroup = ({ friendsList, groupName, setGroupName }) => {
 
     console.log(friendsList);
 
@@ -30,9 +30,10 @@ const CreateGroup = ({ friendsList }) => {
     }
 
     const handleCreateGroup = () => {
+        // we cannot send two different data objects to backend
         let friendsInGroupList = friendList.filter((friend) => friend.requested).map((friend) => {
             let obj = {
-                Username: friend.Username
+                FriendUsername: friend.Username
             }
 
             return obj;
@@ -40,9 +41,31 @@ const CreateGroup = ({ friendsList }) => {
 
         console.log(friendsInGroupList);
 
-        // axios.post(baseUrl + "usercrud/creategroup", friendsInGroupList).then((response) => {
-        //     console.log("group created!");
-        // });
+        let groupChat = {
+            Name: groupName
+        }
+
+        let groupChatCreator = {
+            FriendsInGroupList: friendsInGroupList,
+            GroupChatName: groupName
+        }
+
+        console.log(groupChatCreator);
+
+        axios.post(baseUrl + "usercrud/creategroup", groupChat).then((response) => {
+            console.log("group created");
+            axios.post(baseUrl + "usercrud/addgroupmembers", groupChatCreator).then((response) => {
+                console.log("group members added!");
+            });
+        });
+
+        setGroupName("");
+
+        const resetFriendList = friendList.map(friend => ({
+            ...friend,
+            requested: false
+        }));
+        setFriendList(resetFriendList);
     }
 
     const renderFriendButtons = (friend) => {

@@ -23,6 +23,7 @@ const Sidebar = ({ onLogout }) => {
     const [requestList, setRequestList] = useState([]);
     const [isRequestListChanged, setIsRequestListChanged] = useState(false);
     const [reloadSidebar, setReloadSidebar] = useState(true);
+    const [groupName, setGroupName] = useState("");
 
     useEffect(() => {
         console.log("initiating getuserfriends");
@@ -76,13 +77,8 @@ const Sidebar = ({ onLogout }) => {
         onLogout(true);
     }
 
-    const handleAccountSettings = () => {
-        // account settings
-
-    }
-
-    const handleCreateGroup = () => {
-        // create group
+    const handleGroupName = (event) => {
+        setGroupName(event.target.value);
     }
 
     const handleAcceptRequest = (request) => {
@@ -161,7 +157,7 @@ const Sidebar = ({ onLogout }) => {
                                 </button>
                                 <ul className="dropdown-menu">
                                     <li><button className="btn btn-primary logout-btn" type='button' data-bs-toggle="offcanvas" data-bs-target="#account-offcanvas" onClick={() => handleAccountSettings}>Account Settings</button></li>
-                                    <li><button className="btn btn-primary logout-btn" type='button' data-bs-toggle="offcanvas" data-bs-target="#groups-offcanvas" onClick={handleCreateGroup}>Create Group</button></li>
+                                    <li><button className="btn btn-primary logout-btn" type='button' data-bs-toggle="offcanvas" data-bs-target="#groups-offcanvas">Create Group</button></li>
                                     <li><button className="btn btn-danger logout-btn" type='button' onClick={handleLogout}>Logout</button></li>
                                 </ul>
                             </div>
@@ -224,10 +220,10 @@ const Sidebar = ({ onLogout }) => {
                     <div className="create-group-body">
                         <div className="create-group-top">
                             <label htmlFor="group-name-input">Enter group name: </label>
-                            <input type="text" id='group-name-input' />
+                            <input type="text" id='group-name-input' value={groupName} onChange={handleGroupName} />
                         </div>
                         <div className="create-group-bottom">
-                            <CreateGroup friendsList={friendList} groupName={groupName} />
+                            <CreateGroup friendsList={friendList} groupName={groupName} setGroupName={setGroupName} />
                         </div>
                     </div>
                 </div>

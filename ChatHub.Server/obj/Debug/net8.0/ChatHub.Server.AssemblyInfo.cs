@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ChatHub.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8f90ce8835a0a61615d61b4351e7ff3fb7396435")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a90feec2ec250e5bae4bf9cd8066a1515d668a21")]
 [assembly: System.Reflection.AssemblyProductAttribute("ChatHub.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ChatHub.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

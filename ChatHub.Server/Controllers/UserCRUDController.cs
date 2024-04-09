@@ -567,9 +567,10 @@ namespace ChatHub.Server.Controllers
                     {
                         try
                         {
-                            string command = "INSERT INTO GROUP_CHATS VALUES('@groupName')";
+                            string command = "INSERT INTO GROUP_CHATS VALUES(@groupName, @ownerID)";
                             SqlCommand cmd = new SqlCommand(command, conn, tran);
                             cmd.Parameters.AddWithValue("@groupName", groupChat.Name);
+                            cmd.Parameters.AddWithValue("@ownerId", Constants.Constants._currentUser.Id);
                             cmd.ExecuteNonQuery();
                         }
                         catch (Exception ex)
@@ -584,8 +585,11 @@ namespace ChatHub.Server.Controllers
         }
 
         [HttpPost("addgroupmembers")]
-        public void AddGroupMembers([FromBody] List<FriendInfo> friendInfoList, GroupChats groupChat)
+        public void AddGroupMembers([FromBody] GroupChatCreator groupChatCreator)
         {
+            List<FriendInfo> friendsInGroupList = groupChatCreator.FriendsInGroupList;
+            int groupId = -1;
+
             using (SqlConnection conn = new SqlConnection(Constants.Constants.GetConnectionString()))
             {
                 try
@@ -596,26 +600,42 @@ namespace ChatHub.Server.Controllers
                         try
                         {
                             string command = string.Empty;
-                            for (int i = 0; i < friendInfoList.Count; i++)
+                            SqlCommand cmd;
+                            for (int i = 0; i < friendsInGroupList.Count; i++)
                             {
                                 command = "SELECT * FROM USERS WHERE USERNAME = @username;";
-                                SqlCommand cmd = new SqlCommand(command, conn, tran);
-                                cmd.Parameters.AddWithValue("@username", friendInfoList[i].FriendUsername);
+                                cmd = new SqlCommand(command, conn, tran);
+                                cmd.Parameters.AddWithValue("@username", friendsInGroupList[i].FriendUsername);
                                 using (SqlDataReader reader = cmd.ExecuteReader())
                                 {
                                     if (reader.Read())
                                     {
-                                        friendInfoList[i].FriendId = reader.GetInt32(0);
+                                        friendsInGroupList[i].FriendId = reader.GetInt32(0);
                                     }
                                 }
                             }
 
-                            for (int i = 0; i < friendInfoList.Count; i++)
+                            friendsInGroupList.Add(new FriendInfo());
+                            friendsInGroupList[friendsInGroupList.Count - 1].FriendId = Constants.Constants._currentUser.Id;
+                            friendsInGroupList[friendsInGroupList.Count - 1].FriendUsername = Constants.Constants._currentUser.Username;
+
+                            command = "SELECT ID FROM GROUP_CHATS WHERE NAME = @groupName;";
+                            cmd = new SqlCommand(command, conn, tran);
+                            cmd.Parameters.AddWithValue("@groupName", groupChatCreator.GroupChatName);
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    groupId = reader.GetInt32(0);
+                                }
+                            }
+
+                            for (int i = 0; i < friendsInGroupList.Count; i++)
                             {
                                 command = "INSERT INTO USER_GROUPS VALUES(@friendId, @groupId)";
-                                SqlCommand cmd = new SqlCommand(command, conn, tran);
-                                cmd.Parameters.AddWithValue("@friendId", friendInfoList[i].FriendId);
-                                cmd.Parameters.AddWithValue("@groupId", groupChat.Id);
+                                cmd = new SqlCommand(command, conn, tran);
+                                cmd.Parameters.AddWithValue("@friendId", friendsInGroupList[i].FriendId);
+                                cmd.Parameters.AddWithValue("@groupId", groupId);
                                 cmd.ExecuteNonQuery();
                             }
                         }
